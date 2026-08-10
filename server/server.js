@@ -3,6 +3,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import Service from "./models/Service.js";
+import path from "path";
+import { fileURLToPath } from "url";
 
 dotenv.config();
 
@@ -11,10 +13,21 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// =====================================
+// PATH SETUP
+// =====================================
 
-// ===============================
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const clientDistPath = path.join(
+  __dirname,
+  "../client/dist"
+);
+
+// =====================================
 // HEALTH CHECK
-// ===============================
+// =====================================
 
 app.get("/api/health", (req, res) => {
   res.json({
@@ -23,38 +36,30 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-
-// ===============================
+// =====================================
 // GET ALL SERVICE RECORDS
-// ===============================
+// =====================================
 
 app.get("/api/services", async (req, res) => {
   try {
-
     const services = await Service
       .find()
       .sort({ serviceDate: -1 });
 
     res.json(services);
-
   } catch (error) {
-
     res.status(500).json({
       message: error.message,
     });
-
   }
 });
 
-
-// ===============================
+// =====================================
 // ADD NEW SERVICE
-// ===============================
+// =====================================
 
 app.post("/api/services", async (req, res) => {
-
   try {
-
     const service = await Service.create({
       customerName: req.body.customerName,
       phone: req.body.phone,
@@ -68,33 +73,26 @@ app.post("/api/services", async (req, res) => {
 
       amount: Number(req.body.amount || 0),
 
-      serviceDate: req.body.serviceDate || new Date(),
+      serviceDate:
+        req.body.serviceDate || new Date(),
     });
 
-
     res.status(201).json(service);
-
   } catch (error) {
-
     console.error(error);
 
     res.status(400).json({
       message: error.message,
     });
-
   }
-
 });
 
-
-// ===============================
+// =====================================
 // DELETE SERVICE
-// ===============================
+// =====================================
 
 app.delete("/api/services/:id", async (req, res) => {
-
   try {
-
     await Service.findByIdAndDelete(
       req.params.id
     );
@@ -102,48 +100,53 @@ app.delete("/api/services/:id", async (req, res) => {
     res.json({
       ok: true,
     });
-
   } catch (error) {
-
     res.status(400).json({
       message: error.message,
     });
-
   }
-
 });
 
+// =====================================
+// SERVE REACT FRONTEND
+// =====================================
 
-// ===============================
+app.use(express.static(clientDistPath));
+
+// =====================================
+// REACT SPA FALLBACK
+// =====================================
+
+app.get("*", (req, res) => {
+  res.sendFile(
+    path.join(
+      clientDistPath,
+      "index.html"
+    )
+  );
+});
+
+// =====================================
 // START SERVER
-// ===============================
+// =====================================
 
 const PORT = process.env.PORT || 5000;
 
-
 mongoose
   .connect(process.env.MONGO_URI)
-
   .then(() => {
-
     console.log("MongoDB connected");
 
     app.listen(PORT, () => {
-
       console.log(
-        `Server running on http://localhost:${PORT}`
+        `Hirai Wheel Alignment Center running on port ${PORT}`
       );
-
     });
-
   })
-
   .catch((error) => {
-
     console.error(
       "MongoDB connection failed:"
     );
 
     console.error(error.message);
-
   });
