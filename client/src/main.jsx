@@ -9,7 +9,7 @@ import { createRoot } from "react-dom/client";
 import "./styles.css";
 import hiraiShopPhoto from "./assets/hirai-shop.png";
 
-const API = "http://localhost:5000/api";
+const API = "https://hiraai-wheel-alignment-center-reminder.onrender.com/api" ;
 
 const CENTER_NAME = "Hiraai Wheel Alignment Center";
 
