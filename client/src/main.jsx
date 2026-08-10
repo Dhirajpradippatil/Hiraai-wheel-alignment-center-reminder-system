@@ -852,7 +852,7 @@ function App() {
                 }}
               >
 
-                <img
+                {/* <img
                   src={hiraiShopPhoto}
                   alt={
                     CENTER_NAME
@@ -863,7 +863,7 @@ function App() {
                     objectFit: "cover",
                     borderRadius: "10px",
                   }}
-                />
+                /> */}
 
                 <div>
 
