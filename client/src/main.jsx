@@ -150,50 +150,38 @@ function isReminderDueSoon(record) {
 // =====================================
 
 function createWhatsAppMessage(record) {
+  const currentKm = Number(
+    record.currentKm || 0
+  ).toLocaleString("en-IN");
 
-  const currentKm =
-    Number(
-      record.currentKm
-    ).toLocaleString(
-      "en-IN"
-    );
+  const nextKm = Number(
+    record.nextCheckKm || 0
+  ).toLocaleString("en-IN");
 
-  const nextKm =
-    Number(
-      record.nextCheckKm
-    ).toLocaleString(
-      "en-IN"
-    );
+  const reminderDate = formatDate(
+    record.backupReminderDate
+  );
 
-  const reminderDate =
-    formatDate(
-      record.backupReminderDate
-    );
+  return `Hello ${record.customerName},
 
-  return `Hello ${record.customerName}
+*HIRAAI WHEEL ALIGNMENT CENTER*
 
-HIRAAI WHEEL ALIGNMENT CENTER
+Your vehicle *${record.carNumber}* was recently serviced at our center.
 
-Your vehicle ${record.carNumber} was serviced at our center.
+*Service Details*
+• Service Date: ${formatDate(record.serviceDate)}
+• Current KM: ${currentKm} KM
+• Next Alignment/Check: ${nextKm} KM
+• Reminder Date: ${reminderDate}
 
-Service Date:
-${formatDate(record.serviceDate)}
+If your vehicle has reached or crossed *${nextKm} KM*, we recommend getting the wheel alignment checked to maintain proper tyre life, vehicle stability, and a smooth driving experience.
 
-Current KM:
-${currentKm} KM
+For appointments or assistance:
+*Contact: ${CENTER_PHONE}*
 
-Recommended next alignment/check:
-${nextKm} KM
+Thank you for choosing *Hiraai Wheel Alignment Center*.
 
-Reminder Date:
-${reminderDate}
-
-If your vehicle is near or above ${nextKm} KM, we recommend getting the wheel alignment checked.
-
-Hiraai Wheel Alignment Center
-Contact: ${CENTER_PHONE}
-
-Thank you for choosing Hiraai Wheel Alignment Center.`;
+*Drive Safe!*`;
 }
 
 // =====================================
