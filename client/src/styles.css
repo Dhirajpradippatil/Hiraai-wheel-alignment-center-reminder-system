@@ -1,0 +1,1042 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f3f4f6;
+  color: #111827;
+}
+
+button,
+input {
+  font-family: inherit;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+  background: #111827;
+  color: white;
+  padding: 18px 20px;
+}
+
+.brand {
+  max-width: 1150px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.brand-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  background: white;
+  color: #111827;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 28px;
+  font-weight: 900;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.brand p {
+  margin: 5px 0 0;
+  color: #cbd5e1;
+  font-size: 14px;
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+.navigation {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+
+  background: white;
+  border-bottom: 1px solid #ddd;
+
+  flex-wrap: wrap;
+}
+
+.navigation button {
+  border: 0;
+  padding: 10px 15px;
+
+  border-radius: 8px;
+
+  background: #e5e7eb;
+  color: #111827;
+
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.navigation button:hover {
+  background: #d1d5db;
+}
+
+.navigation button.active {
+  background: #111827;
+  color: white;
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+.main {
+  max-width: 1150px;
+  margin: 20px auto;
+  padding: 0 15px;
+}
+
+
+/* =========================
+   DASHBOARD
+========================= */
+
+.dashboard-cards {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(180px, 1fr));
+
+  gap: 15px;
+
+  margin-bottom: 18px;
+}
+
+.card {
+  background: white;
+
+  padding: 20px;
+
+  border-radius: 12px;
+
+  box-shadow: 0 2px 8px #0001;
+}
+
+.card-title {
+  color: #64748b;
+  font-size: 14px;
+}
+
+.card-value {
+  margin-top: 8px;
+
+  font-size: 30px;
+  font-weight: bold;
+}
+
+
+/* =========================
+   SECTION
+========================= */
+
+.section {
+  background: white;
+
+  padding: 20px;
+
+  border-radius: 12px;
+
+  box-shadow: 0 2px 8px #0001;
+
+  margin-bottom: 18px;
+}
+
+.section h2 {
+  margin-top: 0;
+}
+
+.section h3 {
+  margin-bottom: 8px;
+}
+
+
+/* =========================
+   INFO BOX
+========================= */
+
+.info-box {
+  background: #eff6ff;
+
+  padding: 13px;
+
+  border-radius: 8px;
+
+  line-height: 1.6;
+}
+
+
+/* =========================
+   FORM
+========================= */
+
+.form-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(210px, 1fr));
+
+  gap: 15px;
+
+  margin-bottom: 25px;
+}
+
+.form-grid label {
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.form-grid input {
+  display: block;
+
+  width: 100%;
+
+  margin-top: 6px;
+
+  padding: 11px;
+
+  border: 1px solid #cbd5e1;
+
+  border-radius: 8px;
+
+  font-size: 14px;
+
+  outline: none;
+}
+
+.form-grid input:focus {
+  border-color: #2563eb;
+
+  box-shadow:
+    0 0 0 2px #2563eb22;
+}
+
+
+/* =========================
+   MULTIPLE SERVICES
+========================= */
+
+.services-section {
+  margin-top: 10px;
+}
+
+.service-help {
+  color: #64748b;
+
+  font-size: 14px;
+
+  margin-top: 0;
+}
+
+.service-options {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(210px, 1fr));
+
+  gap: 10px;
+
+  margin-top: 15px;
+}
+
+
+/* Individual service */
+
+.service-option {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 13px;
+
+  border: 1px solid #d1d5db;
+
+  border-radius: 9px;
+
+  background: white;
+
+  cursor: pointer;
+
+  transition: 0.15s;
+}
+
+.service-option:hover {
+  background: #f8fafc;
+
+  border-color: #94a3b8;
+}
+
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+
+  font-family:
+    Arial,
+    sans-serif;
+
+  background: #f3f4f6;
+
+  color: #111827;
+}
+
+button,
+input {
+  font-family: inherit;
+}
+
+
+/* =================================
+   HEADER
+================================= */
+
+.header {
+  background: #111827;
+
+  color: white;
+
+  padding: 18px 20px;
+}
+
+.brand {
+  max-width: 1150px;
+
+  margin: auto;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+}
+
+.brand-logo {
+  width: 50px;
+
+  height: 50px;
+
+  border-radius: 12px;
+
+  background: white;
+
+  color: #111827;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 28px;
+
+  font-weight: 900;
+}
+
+.brand h1 {
+  margin: 0;
+
+  font-size: 22px;
+}
+
+.brand p {
+  margin: 5px 0 0;
+
+  color: #cbd5e1;
+
+  font-size: 14px;
+}
+
+
+/* =================================
+   NAVIGATION
+================================= */
+
+.navigation {
+  display: flex;
+
+  gap: 8px;
+
+  padding: 12px;
+
+  background: white;
+
+  border-bottom:
+    1px solid #ddd;
+
+  flex-wrap: wrap;
+}
+
+.navigation button {
+  border: 0;
+
+  padding: 10px 15px;
+
+  border-radius: 8px;
+
+  background: #e5e7eb;
+
+  color: #111827;
+
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+.navigation button:hover {
+  background: #d1d5db;
+}
+
+.navigation button.active {
+  background: #111827;
+
+  color: white;
+}
+
+
+/* =================================
+   MAIN
+================================= */
+
+.main {
+  max-width: 1150px;
+
+  margin: 20px auto;
+
+  padding: 0 15px;
+}
+
+
+/* =================================
+   DASHBOARD CARDS
+================================= */
+
+.dashboard-cards {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(180px, 1fr)
+    );
+
+  gap: 15px;
+
+  margin-bottom: 18px;
+}
+
+.card {
+  background: white;
+
+  padding: 20px;
+
+  border-radius: 12px;
+
+  box-shadow:
+    0 2px 8px #0001;
+}
+
+.card-title {
+  color: #64748b;
+
+  font-size: 14px;
+}
+
+.card-value {
+  margin-top: 8px;
+
+  font-size: 30px;
+
+  font-weight: bold;
+}
+
+
+/* =================================
+   SECTIONS
+================================= */
+
+.section {
+  background: white;
+
+  padding: 20px;
+
+  border-radius: 12px;
+
+  box-shadow:
+    0 2px 8px #0001;
+
+  margin-bottom: 18px;
+}
+
+.section h2 {
+  margin-top: 0;
+}
+
+.section h3 {
+  margin-bottom: 8px;
+}
+
+
+/* =================================
+   SECTION HEADING
+================================= */
+
+.section-heading {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 15px;
+}
+
+.section-heading h2 {
+  margin-bottom: 5px;
+}
+
+.reminder-count {
+  min-width: 42px;
+
+  height: 42px;
+
+  border-radius: 50%;
+
+  background: #fee2e2;
+
+  color: #991b1b;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-weight: bold;
+
+  font-size: 18px;
+}
+
+
+/* =================================
+   INFO BOX
+================================= */
+
+.info-box {
+  background: #eff6ff;
+
+  padding: 13px;
+
+  border-radius: 8px;
+
+  line-height: 1.7;
+}
+
+
+/* =================================
+   FORM
+================================= */
+
+.form-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(210px, 1fr)
+    );
+
+  gap: 15px;
+
+  margin-bottom: 25px;
+}
+
+.form-grid label {
+  font-weight: bold;
+
+  font-size: 13px;
+}
+
+.form-grid input {
+  display: block;
+
+  width: 100%;
+
+  margin-top: 6px;
+
+  padding: 11px;
+
+  border:
+    1px solid #cbd5e1;
+
+  border-radius: 8px;
+
+  font-size: 14px;
+
+  outline: none;
+}
+
+.form-grid input:focus {
+  border-color: #2563eb;
+
+  box-shadow:
+    0 0 0 2px #2563eb22;
+}
+
+
+/* =================================
+   MULTIPLE SERVICES
+================================= */
+
+.services-section {
+  margin-top: 10px;
+}
+
+.service-help {
+  color: #64748b;
+
+  font-size: 14px;
+
+  margin-top: 0;
+}
+
+.service-options {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(210px, 1fr)
+    );
+
+  gap: 10px;
+
+  margin-top: 15px;
+}
+
+.service-option {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 13px;
+
+  border:
+    1px solid #d1d5db;
+
+  border-radius: 9px;
+
+  background: white;
+
+  cursor: pointer;
+
+  transition: 0.15s;
+}
+
+.service-option:hover {
+  background: #f8fafc;
+
+  border-color: #94a3b8;
+}
+
+.service-option.selected {
+  background: #eff6ff;
+
+  border-color: #2563eb;
+}
+
+.service-option input {
+  width: 18px;
+
+  height: 18px;
+
+  margin: 0;
+
+  cursor: pointer;
+}
+
+.service-option span {
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+
+/* =================================
+   SELECTED SERVICES
+================================= */
+
+.selected-services {
+  margin-top: 18px;
+
+  padding: 14px;
+
+  background: #f8fafc;
+
+  border-radius: 9px;
+
+  border:
+    1px solid #e5e7eb;
+}
+
+.selected-services > div {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 7px;
+
+  margin-top: 10px;
+}
+
+.service-tag {
+  display: inline-block;
+
+  padding: 6px 9px;
+
+  border-radius: 20px;
+
+  background: #e0e7ff;
+
+  color: #3730a3;
+
+  font-size: 12px;
+
+  font-weight: bold;
+}
+
+
+/* =================================
+   SAVE
+================================= */
+
+.save-button {
+  margin-top: 20px;
+
+  border: 0;
+
+  padding: 12px 20px;
+
+  border-radius: 8px;
+
+  background: #2563eb;
+
+  color: white;
+
+  font-weight: bold;
+
+  font-size: 15px;
+
+  cursor: pointer;
+}
+
+.save-button:hover {
+  background: #1d4ed8;
+}
+
+
+/* =================================
+   SEARCH
+================================= */
+
+.search {
+  width: 100%;
+
+  padding: 12px;
+
+  margin-bottom: 15px;
+
+  border:
+    1px solid #cbd5e1;
+
+  border-radius: 8px;
+
+  font-size: 14px;
+
+  outline: none;
+}
+
+.search:focus {
+  border-color: #2563eb;
+}
+
+
+/* =================================
+   CUSTOMER TABLE
+================================= */
+
+.table-container {
+  width: 100%;
+
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 11px;
+
+  border-bottom:
+    1px solid #e5e7eb;
+
+  text-align: left;
+
+  white-space: nowrap;
+}
+
+th {
+  background: #f1f5f9;
+
+  font-size: 13px;
+}
+
+td {
+  font-size: 13px;
+}
+
+td small {
+  color: #64748b;
+}
+
+.table-services {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 5px;
+
+  max-width: 300px;
+
+  white-space: normal;
+}
+
+
+/* =================================
+   REMINDER CARDS
+================================= */
+
+.reminder-card {
+  display: grid;
+
+  grid-template-columns:
+    1.2fr 1.5fr auto auto;
+
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 15px;
+
+  margin: 10px 0;
+
+  border:
+    1px solid #e5e7eb;
+
+  border-radius: 10px;
+
+  background: #ffffff;
+}
+
+.reminder-card:hover {
+  background: #f8fafc;
+}
+
+
+/* =================================
+   REMINDER STATUS
+================================= */
+
+.reminder-status {
+  display: inline-block;
+
+  padding: 6px 10px;
+
+  border-radius: 20px;
+
+  background: #f1f5f9;
+
+  color: #475569;
+
+  font-size: 12px;
+
+  font-weight: bold;
+}
+
+.reminder-status.soon {
+  background: #fef3c7;
+
+  color: #92400e;
+}
+
+.reminder-status.due {
+  background: #fee2e2;
+
+  color: #991b1b;
+}
+
+.reminder-status.overdue {
+  background: #fecaca;
+
+  color: #7f1d1d;
+}
+
+
+/* =================================
+   EMPTY REMINDER
+================================= */
+
+.empty-reminder {
+  padding: 25px;
+
+  text-align: center;
+
+  border:
+    1px dashed #cbd5e1;
+
+  border-radius: 10px;
+
+  background: #f8fafc;
+}
+
+.empty-icon {
+  width: 45px;
+
+  height: 45px;
+
+  margin: 0 auto 10px;
+
+  border-radius: 50%;
+
+  background: #dcfce7;
+
+  color: #166534;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 22px;
+
+  font-weight: bold;
+}
+
+.empty-reminder p {
+  color: #64748b;
+
+  margin-bottom: 0;
+}
+
+
+/* =================================
+   WHATSAPP
+================================= */
+
+.whatsapp-button {
+  border: 0;
+
+  padding: 9px 12px;
+
+  border-radius: 8px;
+
+  background: #16a34a;
+
+  color: white;
+
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+.whatsapp-button:hover {
+  background: #15803d;
+}
+
+
+/* =================================
+   MOBILE
+================================= */
+
+@media (max-width: 800px) {
+
+  .reminder-card {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+@media (max-width: 600px) {
+
+  .brand h1 {
+    font-size: 18px;
+  }
+
+  .brand p {
+    font-size: 12px;
+  }
+
+  .brand-logo {
+    width: 42px;
+
+    height: 42px;
+
+    font-size: 23px;
+  }
+
+  .main {
+    padding: 0 10px;
+  }
+
+  .section {
+    padding: 15px;
+  }
+
+  th,
+  td {
+    font-size: 12px;
+
+    padding: 9px;
+  }
+
+  .service-options {
+    grid-template-columns: 1fr;
+  }
+
+  .section-heading {
+    align-items: flex-start;
+  }
+
+}
