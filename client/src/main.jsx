@@ -9,7 +9,7 @@ import { createRoot } from "react-dom/client";
 import "./styles.css";
 import hiraiShopPhoto from "./assets/hirai-shop.png";
 
-const API = "https://hiraai-wheel-alignment-center-reminder.onrender.com/api" ;
+const API = "http://localhost:5000/api";
 
 const CENTER_NAME = "Hiraai Wheel Alignment Center";
 
@@ -146,30 +146,55 @@ function isReminderDueSoon(record) {
   return days <= 30;
 }
 
+// =====================================
+// WHATSAPP MESSAGE
+// =====================================
+
 function createWhatsAppMessage(record) {
-  const currentKm = Number(record.currentKm).toLocaleString("en-IN");
-  const nextKm = Number(record.nextCheckKm).toLocaleString("en-IN");
-  const reminderDate = formatDate(record.backupReminderDate);
 
-  return `Hello ${record.customerName},
+  const currentKm =
+    Number(
+      record.currentKm
+    ).toLocaleString(
+      "en-IN"
+    );
 
-*HIRAAI WHEEL ALIGNMENT CENTER*
+  const nextKm =
+    Number(
+      record.nextCheckKm
+    ).toLocaleString(
+      "en-IN"
+    );
 
-Dear Customer, your vehicle *${record.carNumber}* was serviced at our center.
+  const reminderDate =
+    formatDate(
+      record.backupReminderDate
+    );
 
-   *Service Date:* ${formatDate(record.serviceDate)}
-   *Current KM:* ${currentKm} KM
-   *Next Alignment/Check:* ${nextKm} KM
-   *Reminder Date:* ${reminderDate}
+  return `Hello ${record.customerName}
 
-If your vehicle has reached or crossed *${nextKm} KM*, we recommend getting the wheel alignment checked to ensure proper tyre performance, vehicle stability, and smooth driving.
+HIRAAI WHEEL ALIGNMENT CENTER
 
-For appointments or assistance, please contact us:
-  *${CENTER_PHONE}*
+Your vehicle ${record.carNumber} was serviced at our center.
 
-Thank you for choosing *Hiraai Wheel Alignment Center*.
+Service Date:
+${formatDate(record.serviceDate)}
 
-Drive Safe! ;
+Current KM:
+${currentKm} KM
+
+Recommended next alignment/check:
+${nextKm} KM
+
+Reminder Date:
+${reminderDate}
+
+If your vehicle is near or above ${nextKm} KM, we recommend getting the wheel alignment checked.
+
+Hiraai Wheel Alignment Center
+Contact: ${CENTER_PHONE}
+
+Thank you for choosing Hiraai Wheel Alignment Center.`;
 }
 
 // =====================================
