@@ -9,7 +9,9 @@ import { createRoot } from "react-dom/client";
 import "./styles.css";
 import hiraiShopPhoto from "./assets/hirai-shop.png";
 
-const API = "https://hiraai-wheel-alignment-center-reminder.onrender.com/api";
+const API =
+  "https://hiraai-wheel-alignment-center-reminder.onrender.com/api";
+
 const CENTER_NAME = "Hiraai Wheel Alignment Center";
 
 const CENTER_PHONE = "8605132782";
@@ -39,6 +41,26 @@ function formatDate(date) {
     month: "short",
     year: "numeric",
   });
+}
+
+// =====================================
+// LOCAL DATE KEY
+// =====================================
+
+function getLocalDateKey(date) {
+  const d = new Date(date);
+
+  const year = d.getFullYear();
+
+  const month = String(
+    d.getMonth() + 1
+  ).padStart(2, "0");
+
+  const day = String(
+    d.getDate()
+  ).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
 }
 
 // =====================================
@@ -85,7 +107,8 @@ function getReminderStatus(reminderDate) {
     reminder.getTime() - today.getTime();
 
   const days = Math.ceil(
-    difference / (1000 * 60 * 60 * 24)
+    difference /
+      (1000 * 60 * 60 * 24)
   );
 
   if (days < 0) {
@@ -138,7 +161,8 @@ function isReminderDueSoon(record) {
     reminder.getTime() - today.getTime();
 
   const days = Math.ceil(
-    difference / (1000 * 60 * 60 * 24)
+    difference /
+      (1000 * 60 * 60 * 24)
   );
 
   // Show overdue + next 30 days
@@ -164,24 +188,24 @@ function createWhatsAppMessage(record) {
 
   return `Hello ${record.customerName},
 
-*HIRAAI WHEEL ALIGNMENT CENTER*
+HIRAAI WHEEL ALIGNMENT CENTER
 
-Your vehicle *${record.carNumber}* was recently serviced at our center.
+Your vehicle ${record.carNumber} was recently serviced at our center.
 
-*Service Details*
-• Service Date: ${formatDate(record.serviceDate)}
-• Current KM: ${currentKm} KM
-• Next Alignment/Check: ${nextKm} KM
-• Reminder Date: ${reminderDate}
+Service Details
+Service Date: ${formatDate(record.serviceDate)}
+Current KM: ${currentKm} KM
+Next Alignment/Check: ${nextKm} KM
+Reminder Date: ${reminderDate}
 
-If your vehicle has reached or crossed *${nextKm} KM*, we recommend getting the wheel alignment checked to maintain proper tyre life, vehicle stability, and a smooth driving experience.
+If your vehicle has reached or crossed ${nextKm} KM, we recommend getting the wheel alignment checked to maintain proper tyre life, vehicle stability, and a smooth driving experience.
 
 For appointments or assistance:
-*Contact: ${CENTER_PHONE}*
+Contact: ${CENTER_PHONE}
 
-Thank you for choosing *Hiraai Wheel Alignment Center*.
+Thank you for choosing Hiraai Wheel Alignment Center.
 
-*Drive Safe!*`;
+Drive Safe!`;
 }
 
 // =====================================
@@ -189,14 +213,18 @@ Thank you for choosing *Hiraai Wheel Alignment Center*.
 // =====================================
 
 function sendWhatsApp(phone, record) {
-  let mobile = String(phone).replace(/\D/g, "");
+  let mobile = String(phone).replace(
+    /\D/g,
+    ""
+  );
 
   // Indian 10-digit number
   if (mobile.length === 10) {
     mobile = "91" + mobile;
   }
 
-  const message = createWhatsAppMessage(record);
+  const message =
+    createWhatsAppMessage(record);
 
   const url =
     `https://wa.me/${mobile}?text=${encodeURIComponent(
@@ -229,13 +257,14 @@ function Card({ title, value }) {
 // =====================================
 
 function App() {
-  const [records, setRecords] = useState([]);
+  const [records, setRecords] =
+    useState([]);
 
-  const [page, setPage] = useState(
-    "dashboard"
-  );
+  const [page, setPage] =
+    useState("dashboard");
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] =
+    useState("");
 
   const [form, setForm] = useState({
     customerName: "",
@@ -279,7 +308,7 @@ function App() {
 
       alert(
         "Backend is not connected.\n\n" +
-          "Make sure the server is running on port 5000."
+          "Make sure the server is running."
       );
     }
   }
@@ -328,22 +357,98 @@ function App() {
     ).size;
 
   // =====================================
+  // TODAY
+  // =====================================
+
+  const today =
+    getLocalDateKey(new Date());
+
+  // =====================================
   // TODAY COUNT
   // =====================================
 
-  const today = new Date()
-    .toISOString()
-    .slice(0, 10);
-
-  const todayCount = records.filter(
-    (record) => {
+  const todayCount =
+    records.filter((record) => {
       return (
-        new Date(record.serviceDate)
-          .toISOString()
-          .slice(0, 10) === today
+        getLocalDateKey(
+          record.serviceDate
+        ) === today
       );
-    }
-  ).length;
+    }).length;
+
+  // =====================================
+  // TODAY'S REVENUE
+  // =====================================
+
+  const todayRevenue =
+    records
+      .filter((record) => {
+        return (
+          getLocalDateKey(
+            record.serviceDate
+          ) === today
+        );
+      })
+      .reduce((total, record) => {
+        return (
+          total +
+          Number(record.amount || 0)
+        );
+      }, 0);
+
+  // =====================================
+  // REVENUE DATE
+  // =====================================
+
+  const [revenueDate, setRevenueDate] =
+    useState(today);
+
+  // =====================================
+  // DATE-WISE REVENUE
+  // =====================================
+
+  const dateWiseRevenue =
+    records
+      .filter((record) => {
+        return (
+          getLocalDateKey(
+            record.serviceDate
+          ) === revenueDate
+        );
+      })
+      .reduce((total, record) => {
+        return (
+          total +
+          Number(record.amount || 0)
+        );
+      }, 0);
+
+  // =====================================
+  // MONTHLY SALES
+  // =====================================
+
+  const monthlyRevenue =
+    records
+      .filter((record) => {
+        const serviceDate =
+          new Date(record.serviceDate);
+
+        const selectedDate =
+          new Date(revenueDate);
+
+        return (
+          serviceDate.getFullYear() ===
+            selectedDate.getFullYear() &&
+          serviceDate.getMonth() ===
+            selectedDate.getMonth()
+        );
+      })
+      .reduce((total, record) => {
+        return (
+          total +
+          Number(record.amount || 0)
+        );
+      }, 0);
 
   // =====================================
   // REMINDER CUSTOMERS
@@ -370,7 +475,8 @@ function App() {
       if (alreadySelected) {
         newServices =
           oldForm.services.filter(
-            (item) => item !== service
+            (item) =>
+              item !== service
           );
       } else {
         newServices = [
@@ -560,16 +666,7 @@ function App() {
             marginBottom: "15px",
           }}
         >
-          {/* <img
-            src={hiraiShopPhoto}
-            alt="Hirai Wheel Alignment Center"
-            style={{
-              width: "100%",
-              height: "180px",
-              objectFit: "cover",
-              display: "block",
-            }}
-          /> */}
+          {/* Photo intentionally hidden */}
         </div>
 
         <div className="brand">
@@ -663,23 +760,13 @@ function App() {
                 }
               />
 
-          <Card
-  title="Today's Revenue"
-  value={`₹${latestRecords
-    .filter((record) => {
-      return (
-        new Date(record.serviceDate)
-          .toISOString()
-          .slice(0, 10) === today
-      );
-    })
-    .reduce(
-      (total, record) =>
-        total + Number(record.amount || 0),
-      0
-    )
-    .toLocaleString("en-IN")}`}
-/>
+              <Card
+                title="Today's Revenue"
+                value={`₹${todayRevenue.toLocaleString(
+                  "en-IN"
+                )}`}
+              />
+
               <Card
                 title="Vehicles"
                 value={
@@ -688,6 +775,112 @@ function App() {
               />
 
             </div>
+
+            {/* ================================= */}
+            {/* DATE-WISE REVENUE */}
+            {/* ================================= */}
+
+            <section className="section">
+
+              <div className="section-heading">
+
+                <div>
+                  <h2>
+                    Date-wise Revenue
+                  </h2>
+
+                  <p className="service-help">
+                    Select a date to see
+                    the total revenue
+                    collected on that day.
+                  </p>
+                </div>
+
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  gap: "20px",
+                  alignItems: "end",
+                  flexWrap: "wrap",
+                }}
+              >
+
+                <label>
+                  Select Date
+
+                  <input
+                    type="date"
+                    value={
+                      revenueDate
+                    }
+                    onChange={(event) =>
+                      setRevenueDate(
+                        event.target
+                          .value
+                      )
+                    }
+                  />
+
+                </label>
+
+                <div className="card">
+
+                  <div className="card-title">
+                    Revenue
+                  </div>
+
+                  <div className="card-value">
+                    ₹
+                    {dateWiseRevenue.toLocaleString(
+                      "en-IN"
+                    )}
+                  </div>
+
+                </div>
+
+              </div>
+
+            </section>
+
+            {/* ================================= */}
+            {/* MONTHLY SALES */}
+            {/* ================================= */}
+
+            <section className="section">
+
+              <div className="section-heading">
+
+                <div>
+                  <h2>
+                    Monthly Sales
+                  </h2>
+
+                  <p className="service-help">
+                    Total sales for the
+                    selected month.
+                  </p>
+                </div>
+
+              </div>
+
+              <div className="card">
+
+                <div className="card-title">
+                  Monthly Sales
+                </div>
+
+                <div className="card-value">
+                  ₹
+                  {monthlyRevenue.toLocaleString(
+                    "en-IN"
+                  )}
+                </div>
+
+              </div>
+
+            </section>
 
             {/* REMINDERS */}
 
@@ -861,19 +1054,6 @@ function App() {
                   flexWrap: "wrap",
                 }}
               >
-
-                {/* <img
-                  src={hiraiShopPhoto}
-                  alt={
-                    CENTER_NAME
-                  }
-                  style={{
-                    width: "180px",
-                    height: "120px",
-                    objectFit: "cover",
-                    borderRadius: "10px",
-                  }}
-                /> */}
 
                 <div>
 
@@ -1284,7 +1464,7 @@ function App() {
                     <th>
                       Current KM
                     </th>
-                    
+
                     <th>
                       Next Check
                     </th>
@@ -1478,8 +1658,17 @@ function App() {
                             </button>
 
                           </td>
+
+                          {/* AMOUNT */}
+
                           <td>
-                            ₹{Number(record.amount || 0).toLocaleString("en-IN")}
+                            ₹
+                            {Number(
+                              record.amount ||
+                                0
+                            ).toLocaleString(
+                              "en-IN"
+                            )}
                           </td>
 
                         </tr>
