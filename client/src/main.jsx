@@ -663,13 +663,23 @@ function App() {
                 }
               />
 
-              <Card
-                title="Today's Services"
-                value={
-                  todayCount
-                }
-              />
-
+             <Card
+  title="Today's Revenue"
+  value={`₹${records
+    .filter((record) => {
+      return (
+        new Date(record.serviceDate)
+          .toISOString()
+          .slice(0, 10) === today
+      );
+    })
+    .reduce(
+      (total, record) =>
+        total + Number(record.amount || 0),
+      0
+    )
+    .toLocaleString("en-IN")}`}
+/>
               <Card
                 title="Vehicles"
                 value={
