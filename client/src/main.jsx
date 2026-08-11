@@ -663,9 +663,9 @@ function App() {
                 }
               />
 
-             <Card
+          <Card
   title="Today's Revenue"
-  value={`₹${records
+  value={`₹${latestRecords
     .filter((record) => {
       return (
         new Date(record.serviceDate)
