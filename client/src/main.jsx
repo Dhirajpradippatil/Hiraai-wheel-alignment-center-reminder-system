@@ -1284,10 +1284,6 @@ function App() {
                     <th>
                       Current KM
                     </th>
-
-                    <th>
-                       Amount
-                   </th>
                     
                     <th>
                       Next Check
@@ -1303,6 +1299,10 @@ function App() {
 
                     <th>
                       WhatsApp
+                    </th>
+
+                    <th>
+                      Amount
                     </th>
 
                   </tr>
@@ -1477,6 +1477,9 @@ function App() {
                               WhatsApp
                             </button>
 
+                          </td>
+                          <td>
+                            ₹{Number(record.amount || 0).toLocaleString("en-IN")}
                           </td>
 
                         </tr>
