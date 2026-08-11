@@ -1286,6 +1286,10 @@ function App() {
                     </th>
 
                     <th>
+                       Amount
+                   </th>
+                    
+                    <th>
                       Next Check
                     </th>
 
