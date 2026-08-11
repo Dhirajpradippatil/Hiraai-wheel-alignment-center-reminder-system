@@ -7,12 +7,12 @@ import React, {
 import { createRoot } from "react-dom/client";
 
 import "./styles.css";
-import hiraiShopPhoto from "./assets/hirai-shop.png";
 
 const API =
   "https://hiraai-wheel-alignment-center-reminder.onrender.com/api";
 
-const CENTER_NAME = "Hiraai Wheel Alignment Center";
+const CENTER_NAME =
+  "Hiraai Wheel Alignment Center";
 
 const CENTER_PHONE = "8605132782";
 
@@ -36,31 +36,58 @@ function formatDate(date) {
     return "-";
   }
 
-  return new Date(date).toLocaleDateString("en-IN", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
+  return new Date(date).toLocaleDateString(
+    "en-IN",
+    {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    }
+  );
 }
 
 // =====================================
-// LOCAL DATE KEY
+// LOCAL DATE STRING
 // =====================================
 
-function getLocalDateKey(date) {
-  const d = new Date(date);
+function getLocalDateString(dateValue) {
+  if (!dateValue) {
+    return "";
+  }
 
-  const year = d.getFullYear();
+  const date = new Date(dateValue);
+
+  if (Number.isNaN(date.getTime())) {
+    return "";
+  }
+
+  const year = date.getFullYear();
 
   const month = String(
-    d.getMonth() + 1
+    date.getMonth() + 1
   ).padStart(2, "0");
 
   const day = String(
-    d.getDate()
+    date.getDate()
   ).padStart(2, "0");
 
   return `${year}-${month}-${day}`;
+}
+
+// =====================================
+// CURRENT MONTH
+// =====================================
+
+function getCurrentMonthString() {
+  const today = new Date();
+
+  const year = today.getFullYear();
+
+  const month = String(
+    today.getMonth() + 1
+  ).padStart(2, "0");
+
+  return `${year}-${month}`;
 }
 
 // =====================================
@@ -99,12 +126,15 @@ function getReminderStatus(reminderDate) {
 
   today.setHours(0, 0, 0, 0);
 
-  const reminder = new Date(reminderDate);
+  const reminder = new Date(
+    reminderDate
+  );
 
   reminder.setHours(0, 0, 0, 0);
 
   const difference =
-    reminder.getTime() - today.getTime();
+    reminder.getTime() -
+    today.getTime();
 
   const days = Math.ceil(
     difference /
@@ -158,7 +188,8 @@ function isReminderDueSoon(record) {
   reminder.setHours(0, 0, 0, 0);
 
   const difference =
-    reminder.getTime() - today.getTime();
+    reminder.getTime() -
+    today.getTime();
 
   const days = Math.ceil(
     difference /
@@ -266,6 +297,11 @@ function App() {
   const [search, setSearch] =
     useState("");
 
+  const [selectedDate, setSelectedDate] =
+    useState(
+      getLocalDateString(new Date())
+    );
+
   const [form, setForm] = useState({
     customerName: "",
     phone: "",
@@ -274,9 +310,8 @@ function App() {
     currentKm: "",
     amount: "",
 
-    serviceDate: new Date()
-      .toISOString()
-      .slice(0, 10),
+    serviceDate:
+      getLocalDateString(new Date()),
 
     services: [
       "Wheel Alignment",
@@ -307,8 +342,7 @@ function App() {
       console.error(error);
 
       alert(
-        "Backend is not connected.\n\n" +
-          "Make sure the server is running."
+        "Backend is not connected."
       );
     }
   }
@@ -357,98 +391,112 @@ function App() {
     ).size;
 
   // =====================================
-  // TODAY
+  // TODAY DATE
   // =====================================
 
-  const today =
-    getLocalDateKey(new Date());
+  const todayDate =
+    getLocalDateString(new Date());
+
+  // =====================================
+  // TODAY RECORDS
+  // =====================================
+
+  const todayRecords =
+    records.filter((record) => {
+      return (
+        getLocalDateString(
+          record.serviceDate
+        ) === todayDate
+      );
+    });
 
   // =====================================
   // TODAY COUNT
   // =====================================
 
   const todayCount =
-    records.filter((record) => {
-      return (
-        getLocalDateKey(
-          record.serviceDate
-        ) === today
-      );
-    }).length;
+    todayRecords.length;
 
   // =====================================
-  // TODAY'S REVENUE
+  // TODAY REVENUE
   // =====================================
 
   const todayRevenue =
-    records
-      .filter((record) => {
-        return (
-          getLocalDateKey(
-            record.serviceDate
-          ) === today
-        );
-      })
-      .reduce((total, record) => {
+    todayRecords.reduce(
+      (total, record) => {
         return (
           total +
           Number(record.amount || 0)
         );
-      }, 0);
+      },
+      0
+    );
 
   // =====================================
-  // REVENUE DATE
+  // CURRENT MONTH
   // =====================================
 
-  const [revenueDate, setRevenueDate] =
-    useState(today);
+  const currentMonth =
+    getCurrentMonthString();
 
   // =====================================
-  // DATE-WISE REVENUE
+  // CURRENT MONTH RECORDS
   // =====================================
 
-  const dateWiseRevenue =
-    records
-      .filter((record) => {
-        return (
-          getLocalDateKey(
-            record.serviceDate
-          ) === revenueDate
+  const monthlyRecords =
+    records.filter((record) => {
+      const serviceDate =
+        getLocalDateString(
+          record.serviceDate
         );
-      })
-      .reduce((total, record) => {
-        return (
-          total +
-          Number(record.amount || 0)
-        );
-      }, 0);
+
+      return serviceDate.startsWith(
+        currentMonth
+      );
+    });
 
   // =====================================
   // MONTHLY SALES
   // =====================================
 
-  const monthlyRevenue =
-    records
-      .filter((record) => {
-        const serviceDate =
-          new Date(record.serviceDate);
-
-        const selectedDate =
-          new Date(revenueDate);
-
-        return (
-          serviceDate.getFullYear() ===
-            selectedDate.getFullYear() &&
-          serviceDate.getMonth() ===
-            selectedDate.getMonth()
-        );
-      })
-      .reduce((total, record) => {
+  const monthlySales =
+    monthlyRecords.reduce(
+      (total, record) => {
         return (
           total +
           Number(record.amount || 0)
         );
-      }, 0);
+      },
+      0
+    );
+
+  // =====================================
+  // DATE-WISE RECORDS
+  // =====================================
+
+  const selectedDateRecords =
+    records.filter((record) => {
+      return (
+        getLocalDateString(
+          record.serviceDate
+        ) === selectedDate
+      );
+    });
+
+  // =====================================
+  // DATE-WISE SALES
+  // =====================================
+
+  const selectedDateSales =
+    selectedDateRecords.reduce(
+      (total, record) => {
+        return (
+          total +
+          Number(record.amount || 0)
+        );
+      },
+      0
+    );
 
   // =====================================
   // REMINDER CUSTOMERS
@@ -475,8 +523,7 @@ function App() {
       if (alreadySelected) {
         newServices =
           oldForm.services.filter(
-            (item) =>
-              item !== service
+            (item) => item !== service
           );
       } else {
         newServices = [
@@ -583,7 +630,7 @@ function App() {
         `Service saved successfully!\n\n` +
           `Next alignment/check: ` +
           `${Number(
-            data.nextCheckKm
+            data.nextCheckKm || 0
           ).toLocaleString(
             "en-IN"
           )} KM\n\n` +
@@ -602,9 +649,9 @@ function App() {
         amount: "",
 
         serviceDate:
-          new Date()
-            .toISOString()
-            .slice(0, 10),
+          getLocalDateString(
+            new Date()
+          ),
 
         services: [
           "Wheel Alignment",
@@ -654,19 +701,7 @@ function App() {
 
       <header className="header">
 
-        {/* SHOP PHOTO */}
-
-        <div
-          className="shop-photo-container"
-          style={{
-            width: "100%",
-            maxHeight: "180px",
-            overflow: "hidden",
-            borderRadius: "12px",
-            marginBottom: "15px",
-          }}
-        >
-          {/* Photo intentionally hidden */}
+        <div className="shop-photo-container">
         </div>
 
         <div className="brand">
@@ -761,10 +796,28 @@ function App() {
               />
 
               <Card
+                title="Today's Services"
+                value={
+                  todayCount
+                }
+              />
+
+              <Card
                 title="Today's Revenue"
-                value={`₹${todayRevenue.toLocaleString(
-                  "en-IN"
-                )}`}
+                value={
+                  `₹${todayRevenue.toLocaleString(
+                    "en-IN"
+                  )}`
+                }
+              />
+
+              <Card
+                title="Monthly Sales"
+                value={
+                  `₹${monthlySales.toLocaleString(
+                    "en-IN"
+                  )}`
+                }
               />
 
               <Card
@@ -777,7 +830,7 @@ function App() {
             </div>
 
             {/* ================================= */}
-            {/* DATE-WISE REVENUE */}
+            {/* DATE-WISE SALES */}
             {/* ================================= */}
 
             <section className="section">
@@ -785,104 +838,79 @@ function App() {
               <div className="section-heading">
 
                 <div>
+
                   <h2>
-                    Date-wise Revenue
+                    Date-wise Sales
                   </h2>
 
                   <p className="service-help">
-                    Select a date to see
-                    the total revenue
-                    collected on that day.
+                    View total sales for
+                    any service date.
                   </p>
+
                 </div>
 
               </div>
 
-              <div
-                style={{
-                  display: "flex",
-                  gap: "20px",
-                  alignItems: "end",
-                  flexWrap: "wrap",
-                }}
-              >
+              <div className="form-grid">
 
                 <label>
+
                   Select Date
 
                   <input
                     type="date"
                     value={
-                      revenueDate
+                      selectedDate
                     }
-                    onChange={(event) =>
-                      setRevenueDate(
-                        event.target
-                          .value
-                      )
+                    onChange={
+                      (event) =>
+                        setSelectedDate(
+                          event.target
+                            .value
+                        )
                     }
                   />
 
                 </label>
 
-                <div className="card">
+                <label>
 
-                  <div className="card-title">
-                    Revenue
-                  </div>
+                  Total Services
 
-                  <div className="card-value">
-                    ₹
-                    {dateWiseRevenue.toLocaleString(
-                      "en-IN"
-                    )}
-                  </div>
+                  <input
+                    type="text"
+                    readOnly
+                    value={
+                      selectedDateRecords.length
+                    }
+                  />
 
-                </div>
+                </label>
+
+                <label>
+
+                  Total Sales
+
+                  <input
+                    type="text"
+                    readOnly
+                    value={
+                      `₹${selectedDateSales.toLocaleString(
+                        "en-IN"
+                      )}`
+                    }
+                  />
+
+                </label>
 
               </div>
 
             </section>
 
             {/* ================================= */}
-            {/* MONTHLY SALES */}
-            {/* ================================= */}
-
-            <section className="section">
-
-              <div className="section-heading">
-
-                <div>
-                  <h2>
-                    Monthly Sales
-                  </h2>
-
-                  <p className="service-help">
-                    Total sales for the
-                    selected month.
-                  </p>
-                </div>
-
-              </div>
-
-              <div className="card">
-
-                <div className="card-title">
-                  Monthly Sales
-                </div>
-
-                <div className="card-value">
-                  ₹
-                  {monthlyRevenue.toLocaleString(
-                    "en-IN"
-                  )}
-                </div>
-
-              </div>
-
-            </section>
-
             {/* REMINDERS */}
+            {/* ================================= */}
 
             <section className="section">
 
@@ -999,7 +1027,8 @@ function App() {
                           Next KM:{" "}
                           <strong>
                             {Number(
-                              record.nextCheckKm
+                              record.nextCheckKm ||
+                                0
                             ).toLocaleString(
                               "en-IN"
                             )}
@@ -1042,54 +1071,45 @@ function App() {
 
             </section>
 
+            {/* ================================= */}
             {/* SHOP INFORMATION */}
+            {/* ================================= */}
 
             <section className="section">
 
-              <div
-                style={{
-                  display: "flex",
-                  gap: "20px",
-                  alignItems: "center",
-                  flexWrap: "wrap",
-                }}
-              >
+              <div>
 
-                <div>
+                <h2>
+                  {CENTER_NAME}
+                </h2>
 
-                  <h2>
-                    {CENTER_NAME}
-                  </h2>
+                <p>
+                  Welcome to your
+                  customer reminder
+                  system.
+                </p>
 
-                  <p>
-                    Welcome to your
-                    customer reminder
-                    system.
-                  </p>
+                <p>
+                  <strong>
+                    KM Reminder:
+                  </strong>{" "}
+                  Every 5,000 KM.
+                </p>
 
-                  <p>
-                    <strong>
-                      KM Reminder:
-                    </strong>{" "}
-                    Every 5,000 KM.
-                  </p>
+                <p>
+                  <strong>
+                    Time Reminder:
+                  </strong>{" "}
+                  5 months after
+                  service.
+                </p>
 
-                  <p>
-                    <strong>
-                      Time Reminder:
-                    </strong>{" "}
-                    5 months after
-                    service.
-                  </p>
-
-                  <p>
-                    <strong>
-                      Center Contact:
-                    </strong>{" "}
-                    {CENTER_PHONE}
-                  </p>
-
-                </div>
+                <p>
+                  <strong>
+                    Center Contact:
+                  </strong>{" "}
+                  {CENTER_PHONE}
+                </p>
 
               </div>
 
@@ -1141,8 +1161,6 @@ function App() {
                 handleSubmit
               }
             >
-
-              {/* CUSTOMER DETAILS */}
 
               <div className="form-grid">
 
@@ -1372,8 +1390,6 @@ function App() {
 
                 </div>
 
-                {/* SELECTED SERVICES */}
-
                 <div className="selected-services">
 
                   <strong>
@@ -1398,8 +1414,6 @@ function App() {
                 </div>
 
               </div>
-
-              {/* SAVE */}
 
               <button
                 className="save-button"
@@ -1588,7 +1602,8 @@ function App() {
                           <td>
 
                             {Number(
-                              record.currentKm
+                              record.currentKm ||
+                                0
                             ).toLocaleString(
                               "en-IN"
                             )}
@@ -1604,7 +1619,8 @@ function App() {
                             <strong>
 
                               {Number(
-                                record.nextCheckKm
+                                record.nextCheckKm ||
+                                  0
                               ).toLocaleString(
                                 "en-IN"
                               )}
@@ -1662,6 +1678,7 @@ function App() {
                           {/* AMOUNT */}
 
                           <td>
+
                             ₹
                             {Number(
                               record.amount ||
@@ -1669,6 +1686,7 @@ function App() {
                             ).toLocaleString(
                               "en-IN"
                             )}
+
                           </td>
 
                         </tr>
