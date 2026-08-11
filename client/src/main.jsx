@@ -828,7 +828,7 @@ function App() {
 
                   <p className="service-help">
                     Select a date to see
-                    total sale for that
+                    total Revenue for that
                     date.
                   </p>
 
@@ -872,7 +872,7 @@ function App() {
                 <div className="card">
 
                   <div className="card-title">
-                    Selected Date Sale
+                    Selected Date Revenue
                   </div>
 
                   <div className="card-value">
