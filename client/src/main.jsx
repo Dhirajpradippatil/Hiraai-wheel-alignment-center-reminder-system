@@ -797,7 +797,7 @@ function App() {
               />
 
               <Card
-                title="Monthly Sale"
+                title="Monthly Revenue"
                 value={`₹${monthlyRevenue.toLocaleString(
                   "en-IN"
                 )}`}
@@ -823,7 +823,7 @@ function App() {
                 <div>
 
                   <h2>
-                    Date-wise Sale
+                    Date-wise Revenue
                   </h2>
 
                   <p className="service-help">
